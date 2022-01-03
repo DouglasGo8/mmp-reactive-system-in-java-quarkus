@@ -11,6 +11,15 @@
 
   <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus</name>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.22</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
   <modules>
     <module>mp-chapter-02</module>
   </modules>

@@ -13,6 +13,7 @@
 ps -e | grep thorntail
 ps -o pid,rss,command -p {{id}} | awk '{$2=int($2/1024)"M";}{print;}'
 java -Xmx48m -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -jar {{jar}}
+./mvnw clean package -Dquarkus.kubernetes.deploy=true
 ----
 
 * Container density is a key characteristic of cloud deployments with Kubernetes
