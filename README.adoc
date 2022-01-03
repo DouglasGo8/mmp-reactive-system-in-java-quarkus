@@ -1,0 +1,16 @@
+= Reactive Systems in Java
+
+== Build Resilient, Event-Driven Architecture with https://quarkus.io/[Quarkus] and https://camel.apache.org/[Apache Camel]
+
+== Links
+
+- https://github.com/cescoffier/reactive-systems-injava.git[Official Git Book Page]
+
+== PS Command RSS
+
+[source,bash]
+----
+ps -e | grep thorntail
+ps -o pid,rss,command -p {{id}} | awk '{$2=int($2/1024)"M";}{print;}'
+java -Xmx48m -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -jar {{jar}}
+----
