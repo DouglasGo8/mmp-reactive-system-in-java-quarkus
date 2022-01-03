@@ -18,6 +18,7 @@
   <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 02</name>
   
   <modules>
+    <module>quarkus-hello</module>
     <module>thorntail-hello</module>
   </modules>
 </project>
