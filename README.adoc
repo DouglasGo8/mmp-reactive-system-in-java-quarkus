@@ -17,3 +17,10 @@ java -Xmx48m -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -jar {{jar}}
 ----
 
 * Container density is a key characteristic of cloud deployments with Kubernetes
+
+* The Reactive Manifesto
+
+** _Responsive_ Able to handle requests in a timely fashion
+** _Resilient_ Able to manage failure gracefully
+** _Elastic_ Able to scale up and down according to the load and resources
+** _Message Driven_ Using asynchronous message-based communication among the components forming the system, async messages ensures loose coupling, isolation and location transparency
