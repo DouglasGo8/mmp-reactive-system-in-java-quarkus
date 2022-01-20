@@ -4,21 +4,28 @@
   <modelVersion>4.0.0</modelVersion>
     
   <parent>
+        
     <artifactId>mmp-reactive-systems-quarkus</artifactId>
+        
     <groupId>com.oreilly.reactive.systems.in.java</groupId>
+        
     <version>1.0-SNAPSHOT</version>
+      
   </parent>
     
-  <groupId>com.oreilly.reactive.systems.in.java.chapter02</groupId>
-  <artifactId>mp-chapter-02</artifactId>
+  <groupId>com.oreilly.reactive.systems.in.java.chapter07</groupId>
+    
+  <artifactId>chapter-07</artifactId>
+    
   <version>1.0-SNAPSHOT</version>
     
   <packaging>pom</packaging>
     
-  <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 02</name>
+  <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 07</name>
   
   <modules>
-    <module>quarkus-hello</module>
-    <module>thorntail-hello</module>
+      
+    <module>munity-samples</module>
+      
   </modules>
 </project>

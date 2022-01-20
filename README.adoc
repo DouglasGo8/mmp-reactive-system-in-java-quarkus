@@ -4,7 +4,8 @@
 
 == Links
 
-- https://github.com/cescoffier/reactive-systems-injava.git[Official Git Book Page]
+- https://github.com/cescoffier/reactive-systems-in-java[Official Git Book Page]
+- https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/3.13/index.html[SmallRye Reactive Messaging]
 
 == PS Command RSS
 
@@ -24,3 +25,16 @@ java -Xmx48m -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -jar {{jar}}
 ** _Resilient_ Able to manage failure gracefully
 ** _Elastic_ Able to scale up and down according to the load and resources
 ** _Message Driven_ Using asynchronous message-based communication among the components forming the system, async messages ensures loose coupling, isolation and location transparency
+
+[source,java]
+----
+class FooMulti {
+
+public Multi<Product> getRecommendations() {
+
+  return Multi.createFrom().ticks().every(Duration.ofSeconds(1))
+    .onOverflow().drop()
+    .onItem().transformToUniAndConcatenate(x-> product.getRecommendedProduct());
+}
+};
+----
