@@ -136,7 +136,7 @@ public class AppTest {
   public void testMultiTransformAsync() {
 
     final var latch = new CountDownLatch(2); // forces latch::countDown to be invoked twice
-    final var multi = Multi.createFrom().items("Douglas", "Ketty", "Bingola");
+    final var multi = Multi.createFrom().items("Douglas", "Ketty", "Bingola", "Tinhosa");
 
     // Represents an external invocation service
     final Function<String, Uni<String>> service = name -> Uni.createFrom().item(name)
