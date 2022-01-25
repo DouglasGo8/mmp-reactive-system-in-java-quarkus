@@ -17,6 +17,13 @@ java -Xmx48m -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -jar {{jar}}
 ./mvnw clean package -Dquarkus.kubernetes.deploy=true
 ----
 
+== Use wrk tool to stress the app endpoint
+
+[source,bash]
+----
+wrk -t 10 -c50 -d40s http://localhost:8080/hello
+----
+
 * Container density is a key characteristic of cloud deployments with Kubernetes
 
 * The Reactive Manifesto
