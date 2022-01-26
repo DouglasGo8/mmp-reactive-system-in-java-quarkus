@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -10,16 +9,16 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.oreilly.reactive.systems.in.java.chapter08.reactive.score</groupId>
-  <artifactId>munity-score</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <groupId>com.oreilly.reactive.systems.in.java.chapter08.resteasy</groupId>
+  <artifactId>resteasy-samples</artifactId>
+  <version>1.0-SNAPSHOT</version>
 
   <name>
-    Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 08 :: Reactive Scores
+    Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 08 :: RestEasy Samples
   </name>
 
   <properties>
-    <compiler-plugin.version>3.8.1</compiler-plugin.version>
+    <compiler-plugin.version>3.9.0</compiler-plugin.version>
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -49,10 +48,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -143,4 +138,5 @@
       </properties>
     </profile>
   </profiles>
+
 </project>
