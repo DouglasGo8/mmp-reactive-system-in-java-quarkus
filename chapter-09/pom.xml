@@ -16,5 +16,6 @@
   <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 09</name>
   <modules>
     <module>hibernate-re4ctive</module>
+    <module>redis-sample</module>
   </modules>
 </project>
