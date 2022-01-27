@@ -36,12 +36,9 @@ wrk -t 10 -c50 -d40s http://localhost:8080/hello
 [source,java]
 ----
 class FooMulti {
-
-public Multi<Product> getRecommendations() {
-
-  return Multi.createFrom().ticks().every(Duration.ofSeconds(1))
-    .onOverflow().drop()
-    .onItem().transformToUniAndConcatenate(x-> product.getRecommendedProduct());
-}
+  public Multi<Product> getRecommendations() {
+    return Multi.createFrom().ticks().every(Duration.ofSeconds(1))
+      .onOverflow().drop()
+      .onItem().transformToUniAndConcatenate(x-> product.getRecommendedProduct());}
 };
 ----
