@@ -6,6 +6,7 @@
 
 - https://github.com/cescoffier/reactive-systems-in-java[Official Git Book Page]
 - https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/3.13/index.html[SmallRye Reactive Messaging]
+- https://camel.apache.org/components/3.14.x/kafka-component.html[Kakfa Component]
 
 == PS Command RSS
 
@@ -45,7 +46,48 @@ class FooMulti {
 
 == Redis Cluster
 
-[source, bash]
+[source,bash]
 ----
 docker run --ulimit memlock=-1:-1 -it --rm=true --memory-swappiness=0 --name redis_quarkus_test -p 6379:6379 redis:5.0.6
+----
+
+== Debezium Connector
+
+[source,bash]
+----
+curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" http://localhost:8083/connectors/ -d @register.json
+curl -H "Accept:application/json" localhost:8083/connectors/
+curl -X GET -H "Accept:application/json" localhost:8083/connectors/customer-connector
+----
+
+== Check Kafka Topics
+
+[source,bash]
+----
+docker exec -ti kafka bin/kafka-topics.sh --list --zookeeper zookeeper:2181
+----
+
+== Topics created
+
+[source,html]
+----
+__consumer_offsets
+my_connect_configs
+my_connect_offsets
+my_connect_statuses
+quarkus-db-server.public.customer
+quarkus-db-server.public.orders
+----
+
+== Camel Consumer Log from Update Operation PUT ##"name":"Marsha Willis 123"}##
+
+[source,bash]
+----
+2022-01-29 11:31:34,557 INFO  [route1] (Camel (camel-1) thread #1 - KafkaConsumer[quarkus-db-server.public.customer]) Message received from Kafka : {"schema":{"type":"struct","fields":[{"type":"struct","fields":[{"type":"int64","optional":false,"field":"id"},{"type":"string","optional":false,"field":"name"}],"optional":true,"name":"quarkus_db_server.public.customer.Value","field":"before"},{"type":"struct","fields":[{"type":"int64","optional":false,"field":"id"},{"type":"string","optional":false,"field":"name"}],"optional":true,"name":"quarkus_db_server.public.customer.Value","field":"after"},{"type":"struct","fields":[{"type":"string","optional":false,"field":"version"},{"type":"string","optional":false,"field":"connector"},{"type":"string","optional":false,"field":"name"},{"type":"int64","optional":false,"field":"ts_ms"},{"type":"string","optional":true,"name":"io.debezium.data.Enum","version":1,"parameters":{"allowed":"true,last,false"},"default":"false","field":"snapshot"},{"type":"string","optional":false,"field":"db"},{"type":"string","optional":true,"field":"sequence"},{"type":"string","optional":false,"field":"schema"},{"type":"string","optional":false,"field":"table"},{"type":"int64","optional":true,"field":"txId"},{"type":"int64","optional":true,"field":"lsn"},{"type":"int64","optional":true,"field":"xmin"}],"optional":false,"name":"io.debezium.connector.postgresql.Source","field":"source"},{"type":"string","optional":false,"field":"op"},{"type":"int64","optional":true,"field":"ts_ms"},{"type":"struct","fields":[{"type":"string","optional":false,"field":"id"},{"type":"int64","optional":false,"field":"total_order"},{"type":"int64","optional":false,"field":"data_collection_order"}],"optional":true,"field":"transaction"}],"optional":false,"name":"quarkus_db_server.public.customer.Envelope"},"payload":{"before":null,"after":{"id":2,"name":"Marsha Willis 123"},"source":{"version":"1.5.4.Final","connector":"postgresql","name":"quarkus-db-server","ts_ms":1643466693971,"snapshot":"false","db":"quarkus_test","sequence":"[\"24203552\",\"24203552\"]","schema":"public","table":"customer","txId":542,"lsn":24203608,"xmin":null},"op":"u","ts_ms":1643466694089,"transaction":null}}
+
+2022-01-29 11:31:34,558 INFO  [route1] (Camel (camel-1) thread #1 - KafkaConsumer[quarkus-db-server.public.customer])     on the topic quarkus-db-server.public.customer
+2022-01-29 11:31:34,558 INFO  [route1] (Camel (camel-1) thread #1 - KafkaConsumer[quarkus-db-server.public.customer])     on the partition 0
+2022-01-29 11:31:34,558 INFO  [route1] (Camel (camel-1) thread #1 - KafkaConsumer[quarkus-db-server.public.customer])     with the offset 17
+2022-01-29 11:31:34,559 INFO  [route1] (Camel (camel-1) thread #1 - KafkaConsumer[quarkus-db-server.public.customer])     with the key {"schema":{"type":"struct","fields":[{"type":"int64","optional":false,"field":"id"}],"optional":false,"name":"quarkus_db_server.public.customer.Key"},"payload":{"id":2}}
+
 ----
