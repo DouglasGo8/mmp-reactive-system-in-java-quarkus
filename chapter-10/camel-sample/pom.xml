@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
-    <artifactId>chapter-09</artifactId>
-    <groupId>com.oreilly.reactive.systems.in.java.chapter09</groupId>
+    <artifactId>chapter-10</artifactId>
+    <groupId>com.oreilly.reactive.systems.in.java.chapter10</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.oreilly.reactive.systems.in.java.chapter09.debezium</groupId>
-  <artifactId>debezium-sample</artifactId>
+  <groupId>com.oreilly.reactive.systems.in.java.chapter10.camel</groupId>
+  <artifactId>camel-sample</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <name>
-    Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 09 :: Debezium CDC
+    Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 10 :: Camel Sample
   </name>
 
   <properties>
@@ -51,46 +49,23 @@
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+      <artifactId>quarkus-arc</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-reactive</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-reactive-panache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-reactive-pg-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-hibernate-validator</artifactId>
-    </dependency>
-    <!-- Camel -->
-    <dependency>
-      <groupId>org.apache.camel.quarkus</groupId>
-      <artifactId>camel-quarkus-core</artifactId>
+      <artifactId>quarkus-smallrye-reactive-messaging</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
-      <artifactId>camel-quarkus-kafka</artifactId>
+      <artifactId>camel-quarkus-smallrye-reactive-messaging</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
-      <artifactId>camel-quarkus-bean</artifactId>
+      <artifactId>camel-quarkus-stream</artifactId>
     </dependency>
-    <!-- Testing -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -99,11 +74,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <build>
     <plugins>
       <plugin>
-        <groupId>io.quarkus</groupId>
+        <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.platform.version}</version>
         <extensions>true</extensions>
@@ -121,7 +95,9 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>
         <configuration>
-          <parameters>${maven.compiler.parameters}</parameters>
+          <compilerArgs>
+            <arg>-parameters</arg>
+          </compilerArgs>
         </configuration>
       </plugin>
       <plugin>
@@ -172,5 +148,4 @@
       </properties>
     </profile>
   </profiles>
-
 </project>

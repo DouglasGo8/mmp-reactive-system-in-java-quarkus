@@ -6,7 +6,8 @@
 
 - https://github.com/cescoffier/reactive-systems-in-java[Official Git Book Page]
 - https://smallrye.io/smallrye-reactive-messaging/smallrye-reactive-messaging/3.13/index.html[SmallRye Reactive Messaging]
-- https://camel.apache.org/components/3.14.x/kafka-component.html[Kakfa Component]
+- https://camel.apache.org/components/3.14.x/kafka-component.html[Kafka Component]
+- https://github.com/minyk/docker-artemis/blob/master/docker-compose.yml[Docker Apache Artemis]
 
 == PS Command RSS
 
@@ -40,7 +41,8 @@ class FooMulti {
   public Multi<Product> getRecommendations() {
     return Multi.createFrom().ticks().every(Duration.ofSeconds(1))
       .onOverflow().drop()
-      .onItem().transformToUniAndConcatenate(x-> product.getRecommendedProduct());}
+      .onItem().transformToUniAndConcatenate(x-> product.getRecommendedProduct());
+  }
 };
 ----
 
@@ -91,3 +93,204 @@ quarkus-db-server.public.orders
 2022-01-29 11:31:34,559 INFO  [route1] (Camel (camel-1) thread #1 - KafkaConsumer[quarkus-db-server.public.customer])     with the key {"schema":{"type":"struct","fields":[{"type":"int64","optional":false,"field":"id"}],"optional":false,"name":"quarkus_db_server.public.customer.Key"},"payload":{"id":2}}
 
 ----
+
+== SmallRye Reactive Messaging
+
+=== Concepts
+
+- Messages, Payloads and Metadata
+
+. Message is an envelope around a payload, the application is going to receive, process and send Messages, Each Message<T> contains a payload of type <T>.
+. Channels and Streams Inside your application, Messages transit on channel.
+. A channel is a virtual destination identified by a name.
+. Each connector is dedicated to a specific technology, for example, a Kafka Connector only deals with Kafka.
+. You don’t necessarily need a connector, when your application does not use connectors, everything happens in-memory
+
+. Connectors A connector is a piece of code that connects to a broker and
+.. subscribe/poll/receive messages from the broker and propagate them to the application
+.. send/write/dispatch messages provided by the application to the broker
+
+....
+String payload = message.getPayload();
+Optional<MyMetadata> metadata = message.getMetadata(MyMetadata.class);
+....
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+  <groupId>io.smallrye.reactive</groupId>
+  <artifactId>smallrye-reactive-messaging-provider</artifactId>
+  <version>3.13.0</version>
+</dependency>
+<dependency>
+ <groupId>io.smallrye.reactive</groupId>
+ <artifactId>mutiny-reactive-streams-operators</artifactId>
+ <version>1.1.2</version>
+</dependency>
+<dependency>
+  <groupId>org.jboss.weld.se</groupId>
+  <artifactId>weld-se-core</artifactId>
+  <version>3.1.8.Final</version>
+</dependency>
+<dependency>
+  <groupId>io.smallrye.config</groupId>
+  <artifactId>smallrye-config</artifactId>
+  <version>2.6.1</version>
+</dependency>
+----
+
+[source,java]
+----
+
+@ApplicationScope
+public class Main {
+  public static void main(String... args) {
+    SeContainerInitializer.newInstance().initilize();
+  }
+}
+
+@ApplicationScoped
+public class MyBean {
+ @Outgoing("source")
+    public PublisherBuilder<String> source() {
+        return ReactiveStreams.of("hello", "with", "SmallRye", "reactive", "message");
+    }
+
+    @Incoming("source")
+    @Outgoing("processed-a")
+    public String toUpperCase(String payload) {
+        return payload.toUpperCase();
+    }
+
+    @Incoming("processed-a")
+    @Outgoing("processed-b")
+    public PublisherBuilder<String> filter(PublisherBuilder<String> input) {
+        return input.filter(item -> item.length() > 4);
+    }
+
+    @Incoming("processed-b")
+    public void sink(String word) {
+        System.out.println(">> " + word);
+    }
+}
+----
+
+When work with CDI using Apache Deltaspike or Jboss Weld bean.xml empty file is mandatory
+
+[source,xml,subs=attributes+]
+----
+<beans
+  xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="
+      http://xmlns.jcp.org/xml/ns/javaee
+      http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd"
+  bean-discovery-mode="annotated">
+</beans>
+----
+
+[source,java]
+----
+package beans;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Message;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class MessageProcessingBean {
+
+    @Incoming("consumed-channel")
+    @Outgoing("populated-channel")
+    public Message<String> process(Message<String> in) {
+        // Process the payload
+        String payload = in.getPayload().toUpperCase();
+        // Create a new message from `in` and just update the payload
+        return in.withPayload(payload);
+    }
+}
+
+----
+
+.. Manipulating messages can be cumbersome.
+When you are only interested in the payload, you can use the following syntax: The following code is equivalent to the snippet from above
+
+[source,java]
+----
+package beans;
+
+import org.eclipse.microprofile.reactive.messaging.Incoming;
+import org.eclipse.microprofile.reactive.messaging.Outgoing;
+
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
+public class PayloadProcessingBean {
+
+    @Incoming("consumed-channel")
+    @Outgoing("populated-channel")
+    public String process(String in) {
+        return in.toUpperCase();
+    }
+}
+----
+
+IMPORTANT: You should not call methods annotated with @Incoming and/or @Outgoing directly from your code.
+They are invoked by the framework, having user code invoking them would not have the expected outcome
+
+.. Methods annotated with @Incoming or @Outgoing don’t need to be in the same bean (class), and Remote interactions are also possible when using connectors.
+
+== Return Ack
+[source, java]
+----
+@Incoming("my-channel")
+public Uni<Void> consumeMessageUni(Message<Price> message) {
+    return Uni.createFrom().item(message)
+        .onItem().invoke(m -> handle(m.getPayload()))
+        .onItem().transformToUni(x -> Uni.createFrom().completionStage(message.ack()));
+}
+----
+
+== Automatic Ack with Async behavior
+
+[source, java]
+----
+@Incoming("my-channel")
+public CompletionStage<Void> consumePayloadCS(Price payload) {
+    CompletionStage<Void> cs = handleAsync(payload);
+    return cs;
+}
+
+@Incoming("my-channel")
+public Uni<Void> consumePayloadUni(Price payload) {
+    return Uni.createFrom().item(payload)
+        .onItem().invoke(this::handle)
+        .onItem().ignore().andContinueWithNull();
+}
+----
+
+== Connectors
+
+=== Apache Kafka
+
+. Kafka connector adds support for Kafka to Reactive Messaging
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+  <groupId>io.smallrye.reactive</groupId>
+  <artifactId>smallrye-reactive-messaging-kafka</artifactId>
+  <version>3.13.0</version>
+</dependency>
+
+----
+
+....
+# Inbound
+mp.messaging.incoming.[channel-name].connector=smallrye-kafka
+
+# Outbound
+mp.messaging.outgoing.[channel-name].connector=smallrye-kafka
+....

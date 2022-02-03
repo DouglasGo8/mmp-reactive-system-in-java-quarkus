@@ -9,14 +9,17 @@
     <groupId>com.oreilly.reactive.systems.in.java</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>com.oreilly.reactive.systems.in.java.chapter09</groupId>
-  <artifactId>chapter-09</artifactId>
+  <groupId>com.oreilly.reactive.systems.in.java.chapter10</groupId>
+  <artifactId>chapter-10</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 09</name>
+  <name>Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 10</name>
   <modules>
-    <module>hibernate-re4ctive</module>
-    <module>redis-sample</module>
-    <module>debezium-sample</module>
+    <module>blocking-sample</module>
+    <module>database-sample</module>
+    <module>fault-tolerance</module>
+    <module>messages-sample</module>
+    <module>stream-sample</module>
+    <module>camel-sample</module>
   </modules>
 </project>

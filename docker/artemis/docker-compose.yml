@@ -1,0 +1,38 @@
+version: '2'
+services:
+  artemis:
+    image: vromero/activemq-artemis:latest
+    volumes:
+      - ./artemis:/var/lib/artemis/etc-override
+    environment:
+      ENABLE_JMX_EXPORTER: "true"
+      ARTEMIS_MIN_MEMORY: "1512M"
+      ARTEMIS_MAX_MEMORY: "2000M"
+      ARTEMIS_USERNAME: "guest"
+      ARTEMIS_PASSWORD: "welcome1"
+    ports:
+      - "8161:8161"
+# node1:
+#   image: vromero/activemq-artemis:2.6.1
+#     volumes:
+#      - ./node1:/var/lib/artemis/etc-override
+#    environment:
+#      ENABLE_JMX_EXPORTER: "true"
+#      ARTEMIS_MIN_MEMORY: "1512M"
+#      ARTEMIS_MAX_MEMORY: "2000M"
+#      ARTEMIS_USERNAME: "test"
+#      ARTEMIS_PASSWORD: "test"
+#    ports:
+#      - "8162:8161"
+#  node2:
+#    image: vromero/activemq-artemis:2.6.1
+#    volumes:
+#      - ./node2:/var/lib/artemis/etc-override
+#    environment:
+#      ENABLE_JMX_EXPORTER: "true"
+#      ARTEMIS_MIN_MEMORY: "1512M"
+#      ARTEMIS_MAX_MEMORY: "2000M"
+#      ARTEMIS_USERNAME: "test"
+#      ARTEMIS_PASSWORD: "test"
+#    ports:
+#      - "8163:8161"
