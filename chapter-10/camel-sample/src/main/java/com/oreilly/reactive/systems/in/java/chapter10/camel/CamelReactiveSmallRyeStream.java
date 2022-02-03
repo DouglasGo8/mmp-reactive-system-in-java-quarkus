@@ -25,4 +25,9 @@ public class CamelReactiveSmallRyeStream {
   }
 
 
+  // @Outgoing("channel1")
+  //public Uni<String> fluid() {
+  //   return Uni.createFrom().emitter(e-> e.complete("xpto"));
+  // }
+
 }
