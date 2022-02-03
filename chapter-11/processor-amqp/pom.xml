@@ -3,17 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>chapter-10</artifactId>
-    <groupId>com.oreilly.reactive.systems.in.java.chapter10</groupId>
+    <artifactId>chapter-11</artifactId>
+    <groupId>com.oreilly.reactive.systems.in.java.chapter11</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <groupId>com.oreilly.reactive.systems.in.java.chapter10.camel</groupId>
-  <artifactId>camel-sample</artifactId>
+  <groupId>com.oreilly.reactive.systems.in.java.chapter11.process.amqp</groupId>
+  <artifactId>processor-amqp</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <name>
-    Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 10 :: Camel Sample
+    Reactive Systems in Java :: Resilient, Event-Driven Architecture with Quarkus :: Chapter 11 :: Processor AMQP
   </name>
 
   <properties>
@@ -53,7 +53,7 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-reactive-messaging</artifactId>
+      <artifactId>quarkus-smallrye-reactive-messaging-amqp</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
@@ -61,7 +61,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
-      <artifactId>camel-quarkus-stream</artifactId>
+      <artifactId>camel-quarkus-amqp</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

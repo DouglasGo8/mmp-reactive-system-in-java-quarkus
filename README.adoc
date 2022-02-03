@@ -17,6 +17,7 @@ ps -e | grep thorntail
 ps -o pid,rss,command -p {{id}} | awk '{$2=int($2/1024)"M";}{print;}'
 java -Xmx48m -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -jar {{jar}}
 ./mvnw clean package -Dquarkus.kubernetes.deploy=true
+docker rmi $(docker images -q)
 ----
 
 == Use wrk tool to stress the app endpoint

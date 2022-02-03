@@ -11,6 +11,7 @@ services:
       ARTEMIS_USERNAME: "guest"
       ARTEMIS_PASSWORD: "welcome1"
     ports:
+      - "5672:5672"
       - "8161:8161"
 # node1:
 #   image: vromero/activemq-artemis:2.6.1
